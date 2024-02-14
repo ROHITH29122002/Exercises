@@ -5,16 +5,16 @@ using namespace std;
 
 class Loans{
 public:
-  virtual void getAvailableLoans(){}
-  virtual float getIntrest(){}
+  virtual void getAvailableLoans()=0;
+  virtual float getIntrest()=0;
 };
 
 class Bank{
 public:
-   virtual string getName(){}
-   virtual string getEstablishedDate(){}
-   virtual string getBankType(){}
-   virtual string getBranchName(){}
+   virtual string getName()=0;
+   virtual string getEstablishedDate()=0;
+   virtual string getBankType()=0;
+   virtual string getBranchName()=0;
 };
 
 class Banks:public Bank,public Loans{
@@ -71,8 +71,9 @@ public:
   output<<"Loan Intrest Rate : "<<bank.getIntrest()<<endl;
   return output;
   }
-  friend bool operator<(Banks &bank1,Banks &bank2){
-    if(bank1.getIntrest()<bank2.getIntrest()){
+  bool operator<(Banks &bank2){
+    cout<<this<<endl;
+    if(this->getIntrest()<bank2.getIntrest()){
       return true;
     }
     return false;
@@ -120,7 +121,7 @@ public:
     cin>>bankname2;
     cout<<endl;
     int bank2index=Search(bankname2,banks);
-    if(!bank2index==-1){
+    if(bank2index==-1){
       cout<<"Bank Not Found"<<endl;
       return;
     }
@@ -219,7 +220,7 @@ void PrintMultipleBanks(vector<unique_ptr<Banks> > &banks){
   cout<<"Enter the number of Banks : ";
   cin>>n;
   cout<<endl;
-  vector<unique_ptr<Banks> > userbanks;
+  vector<int> userbanks;
   for(int i=0;i<n;i++){
     string bankname;
     cout<<"Enter Bank "<<i+1<<" Name : ";
@@ -230,11 +231,11 @@ void PrintMultipleBanks(vector<unique_ptr<Banks> > &banks){
       cout<<"Bank Not Found"<<endl;
       return;
     }
-    userbanks.push_back(unique_ptr<Banks>(banks[bankindex].get()));
+    userbanks.push_back(bankindex);
   }
   int sizeOfUserBanks=userbanks.size();
   for(int i=0;i<sizeOfUserBanks;i++){
-    cout<<*userbanks[i]<<endl;
+    cout<<*banks[userbanks[i]]<<endl;
   }
 }
 

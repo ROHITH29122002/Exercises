@@ -7,58 +7,66 @@ using namespace std;
 class Rectangle{
 public:
   string name;
-  unique_ptr<int> width;
-  unique_ptr<int> height;
-  unique_ptr<int> top;
-  unique_ptr<int> left;
-  unique_ptr<int> area;
+  int* width;
+  int* height;
+  int* top;
+  int* left;
+  int* area;
 
   Rectangle(){
     cout<<"Enter The Name of The Rectangle : ";
     cin>>name;
     cout<<endl;
-    width=unique_ptr<int>(new int(0));
-    height=unique_ptr<int>(new int(0));
-    top=unique_ptr<int>(new int(0));
-    left=unique_ptr<int>(new int(0));
-    area=unique_ptr<int>(new int(0));
+    width=new int(0);
+    height=new int(0);
+    top=new int(0);
+    left=new int(0);
+    area=new int(0);
   }
 
   Rectangle(string username,int w,int h){
     name=username;
-    width=unique_ptr<int>(new int(w));
-    height=unique_ptr<int>(new int(h));
-    top=unique_ptr<int>(new int(0));
-    left=unique_ptr<int>(new int(0));
-    area=unique_ptr<int>(new int(0));
+    width=new int(w);
+    height=new int(h);
+    top=new int(0);
+    left=new int(0);
+    area=new int(0);
   }
 
   Rectangle(string username,int w,int h,int t,int l){
     name=username;
-    width=unique_ptr<int>(new int(w));
-    height=unique_ptr<int>(new int(h));
-    top=unique_ptr<int>(new int(t));
-    left=unique_ptr<int>(new int(l));
-    area=unique_ptr<int>(new int(0));
+    width=new int(w);
+    height=new int(h);
+    top=new int(t);
+    left=new int(l);
+    area=new int(0);
   }
 
   Rectangle(string username,float w,float h,float t,float l){
     name=username;
-    width=unique_ptr<int>(new int(int(w)));
-    height=unique_ptr<int>(new int(int(h)));
-    top=unique_ptr<int>(new int(int(t)));
-    left=unique_ptr<int>(new int(int(l)));
-    area=unique_ptr<int>(new int(0));
+    width=new int(int(w));
+    height=new int(int(h));
+    top=new int(int(t));
+    left=new int(int(l));
+    area=new int(0);
   }
 
   Rectangle(Rectangle& rectangle){
     name=rectangle.name;
-    width=unique_ptr<int>(new int(*rectangle.width));
-    height=unique_ptr<int>(new int(*rectangle.width));
-    top=unique_ptr<int>(new int(*rectangle.width));
-    left=unique_ptr<int>(new int(*rectangle.width));
-    area=unique_ptr<int>(new int((*width)*(*height)));
+    width=new int(*rectangle.width);
+    height=new int(*rectangle.height);
+    top=new int(*rectangle.top);
+    left=new int(*rectangle.left);
+    area=new int((*width)*(*height));
     *(rectangle.area)=*area;
+  }
+
+  ~Rectangle(){
+    delete width;
+    delete height;
+    delete top;
+    delete left;
+    delete area;
   }
 
   friend ostream& operator<<(ostream &output,Rectangle &rectangle){
@@ -72,11 +80,11 @@ public:
   }
 };
 
-void CreateRectangle(vector<unique_ptr<Rectangle> > &rectangles){
-  rectangles.push_back(unique_ptr<Rectangle>(new Rectangle()));
+void CreateRectangle(vector<Rectangle*> &rectangles){
+  rectangles.push_back(new Rectangle());
 }
 
-void CreateRectangleWithWidthAndHeight(vector<unique_ptr<Rectangle> > &rectangles){
+void CreateRectangleWithWidthAndHeight(vector<Rectangle*> &rectangles){
   string name;
   int width,height;
   cout<<"Enter the name for the Rectangle : ";
@@ -88,10 +96,10 @@ void CreateRectangleWithWidthAndHeight(vector<unique_ptr<Rectangle> > &rectangle
   cout<<"Enter the height of Rectangle : ";
   cin>>height;
   cout<<endl;
-  rectangles.push_back(unique_ptr<Rectangle>(new Rectangle(name,width,height)));
+  rectangles.push_back(new Rectangle(name,width,height));
 }
 
-void CreateRectangleWithAllIntValues(vector<unique_ptr<Rectangle> > &rectangles){
+void CreateRectangleWithAllIntValues(vector<Rectangle* > &rectangles){
   string name;
   int width,height,top,left;
   cout<<"Enter the name for the Rectangle : ";
@@ -109,10 +117,10 @@ void CreateRectangleWithAllIntValues(vector<unique_ptr<Rectangle> > &rectangles)
   cout<<"Enter the left of Rectangle : ";
   cin>>left;
   cout<<endl;
-  rectangles.push_back(unique_ptr<Rectangle>(new Rectangle(name,width,height,top,left)));
+  rectangles.push_back(new Rectangle(name,width,height,top,left));
 }
 
-void CreateRectangleWithAllFloatValues(vector<unique_ptr<Rectangle> > &rectangles){
+void CreateRectangleWithAllFloatValues(vector<Rectangle*> &rectangles){
   string name;
   float width,height,top,left;
   cout<<"Enter the name for the Rectangle : ";
@@ -130,10 +138,10 @@ void CreateRectangleWithAllFloatValues(vector<unique_ptr<Rectangle> > &rectangle
   cout<<"Enter the left of Rectangle : ";
   cin>>left;
   cout<<endl;
-  rectangles.push_back(unique_ptr<Rectangle>(new Rectangle(name,width,height,top,left)));
+  rectangles.push_back(new Rectangle(name,width,height,top,left));
 }
 
-int Search(vector<unique_ptr<Rectangle> > &rectangles){
+int Search(vector<Rectangle*> &rectangles){
   string username;
   int size=rectangles.size();
   cout<<"Enter the name of the Rectangle : ";
@@ -149,7 +157,7 @@ int Search(vector<unique_ptr<Rectangle> > &rectangles){
   return rectangleindex;
 }
 
-void CalculateAndPrintArea(vector<unique_ptr<Rectangle> > &rectangles){
+void CalculateAndPrintArea(vector<Rectangle*> &rectangles){
   int rectangleindex=Search(rectangles);
   if(rectangleindex==-1){
     cout<<"Rectangle Not Found"<<endl;
@@ -159,7 +167,7 @@ void CalculateAndPrintArea(vector<unique_ptr<Rectangle> > &rectangles){
   cout<<"The Area is : "<<*(rectangle2.area)<<endl;
 }
 
-void PrintRectangle(vector<unique_ptr<Rectangle> > &rectangles){
+void PrintRectangle(vector<Rectangle* > &rectangles){
   int rectangleindex=Search(rectangles);
   if(rectangleindex==-1){
     cout<<"Rectangle Not Found"<<endl;
@@ -169,14 +177,19 @@ void PrintRectangle(vector<unique_ptr<Rectangle> > &rectangles){
 }
 
 int main(){
-  vector<unique_ptr<Rectangle> > rectangles;
+  vector<Rectangle*> rectangles;
   while(true){
+    // cout<<"Rectangles : "<<endl;
+    int rectanglesize=rectangles.size();
+    // for(int i=0;i<rectanglesize;i++){
+    //   cout<<*rectangles[i]<<endl;
+    // }
     cout<<"Select any option : "<<endl;
     cout<<"1.Create Rectangle"<<endl;
     cout<<"2.Create Rectangle with width and height "<<endl;
     cout<<"3.Create Rectangle with width,height,top,left"<<endl;
     cout<<"4.Create Rectangle with width,height,top,left as float"<<endl;
-    cout<<"5.Print Area"<<endl;
+    cout<<"5.Calculate Area"<<endl;
     cout<<"6.Print Rectangle"<<endl;
     cout<<"7.Exit"<<endl;
     int option;
@@ -202,6 +215,9 @@ int main(){
       PrintRectangle(rectangles);
       break;
     case 7:
+      for(int i=0;i<rectanglesize;i++){
+        delete rectangles[i];
+      }
       return 0;
       break;
     default:
