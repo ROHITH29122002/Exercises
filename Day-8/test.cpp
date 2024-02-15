@@ -78,7 +78,7 @@ public:
     cout<<"Bill Paid Successfully for "<<std<<" "<<number<<endl;
   }
   void updateBill(int amount){
-    due_amount=amount;
+    due_amount+=amount;
     cout<<"Due Amount is updated to : "<<amount<<endl;
   }
 };
@@ -111,7 +111,7 @@ public:
     cout<<"Bill Paid Successfully for "<<std<<" "<<number<<endl;
   }
   void updateBill(int amount){
-    due_amount=amount;
+    due_amount+=amount;
     cout<<"Due Amount is updated to : "<<amount<<endl;
   }
 };
