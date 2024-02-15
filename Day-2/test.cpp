@@ -71,16 +71,15 @@ public:
   output<<"Loan Intrest Rate : "<<bank.getIntrest()<<endl;
   return output;
   }
-  bool operator<(Banks &bank2){
-    cout<<this<<endl;
-    if(this->getIntrest()<bank2.getIntrest()){
+  friend bool operator<(Banks &bank1,Banks &bank2){
+    if(bank1.getIntrest()<bank2.getIntrest()){
       return true;
     }
     return false;
   }
 };
 
-int Search(string name,vector<unique_ptr<Banks> > &banks){
+int Search(string name,vector<shared_ptr<Banks> > &banks){
   int size=banks.size();
   int bankindex=-1;
   for(int i=0;i<size;i++){
@@ -92,7 +91,7 @@ int Search(string name,vector<unique_ptr<Banks> > &banks){
   return bankindex;
 }
 
-void DisplayBankWithLowestIntrestRate(vector<unique_ptr<Banks> > &banks){
+void DisplayBankWithLowestIntrestRate(vector<shared_ptr<Banks> > &banks){
   int index=0;
   float min_intrest=(*banks[0]).getIntrest();
   int size=banks.size();
@@ -107,7 +106,7 @@ void DisplayBankWithLowestIntrestRate(vector<unique_ptr<Banks> > &banks){
 
 class Broker{
 public:
-  void CompareTwoBanks(vector<unique_ptr<Banks> > &banks){
+  void CompareTwoBanks(vector<shared_ptr<Banks> > &banks){
     string bankname1,bankname2;
     cout<<"Enter Bank 1 Name : ";
     cin>>bankname1;
@@ -133,7 +132,7 @@ public:
     }
   }
 
-  void CompareThreeBanks(vector<unique_ptr<Banks> > &banks){
+  void CompareThreeBanks(vector<shared_ptr<Banks> > &banks){
     string bankname1,bankname2,bankname3;
     cout<<"Enter Bank 1 Name : ";
     cin>>bankname1;
@@ -170,12 +169,12 @@ public:
     }
   }
 
-  void CompareNBanks(vector<unique_ptr<Banks> > &banks){
+  void CompareNBanks(vector<shared_ptr<Banks> > &banks){
     int n;
     cout<<"Enter the number of Banks for comparision : ";
     cin>>n;
     cout<<endl;
-    vector<unique_ptr<Banks> > userbanks;
+    vector<shared_ptr<Banks> > userbanks;
     for(int i=0;i<n;i++){
       string bankname;
       cout<<"Enter Bank "<<i+1<<" Name : ";
@@ -186,7 +185,7 @@ public:
         cout<<"Bank Not Found"<<endl;
         return;
       }
-      userbanks.push_back(unique_ptr<Banks>(banks[bankindex].get()));
+      userbanks.push_back(banks[bankindex]);
     }
     DisplayBankWithLowestIntrestRate(userbanks);
   }
@@ -198,11 +197,11 @@ string Convert(string s){
 }
 
 
-void CreateBank(vector<unique_ptr<Banks> > &banks){
-  banks.push_back(unique_ptr<Banks>(new Banks()));
+void CreateBank(vector<shared_ptr<Banks> > &banks){
+  banks.push_back(shared_ptr<Banks>(new Banks()));
 }
 
-void PrintOneBank(vector<unique_ptr<Banks> > &banks){
+void PrintOneBank(vector<shared_ptr<Banks> > &banks){
   string bankname;
   cout<<"Enter The Bank Name : ";
   cin>>bankname;
@@ -215,7 +214,7 @@ void PrintOneBank(vector<unique_ptr<Banks> > &banks){
   cout<<*banks[bankindex]<<endl;
 }
 
-void PrintMultipleBanks(vector<unique_ptr<Banks> > &banks){
+void PrintMultipleBanks(vector<shared_ptr<Banks> > &banks){
   int n;
   cout<<"Enter the number of Banks : ";
   cin>>n;
@@ -242,7 +241,7 @@ void PrintMultipleBanks(vector<unique_ptr<Banks> > &banks){
 
 int main(){
   Broker broker;
-  vector<unique_ptr<Banks> > banks;
+  vector<shared_ptr<Banks> > banks;
   while(true){
     cout<<"Select Any Operation : "<<endl;
     cout<<"1.Add Bank"<<endl;

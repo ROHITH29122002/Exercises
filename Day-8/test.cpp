@@ -79,7 +79,7 @@ public:
   }
   void updateBill(int amount){
     due_amount+=amount;
-    cout<<"Due Amount is updated to : "<<amount<<endl;
+    cout<<"Due Amount is updated by : "<<amount<<endl;
   }
 };
 

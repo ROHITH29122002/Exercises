@@ -37,17 +37,17 @@ public:
         cout <<name<<" Sensor DisConnected" << endl;
         isConnected = false;
     }
-    void increase() {
+    void increase(int amount) {
         if (isConnected) {
-            value += 1;
+            value += amount;
             cout << name<<" increased to : " << value << endl;
             return;
         }
         cout << name<<" Sensor not connected" << endl;
     }
-    void decrease() {
+    void decrease(int amount) {
         if (isConnected) {
-            value -= 1;
+            value -= amount;
             cout << name<<" decreased to : " << value << endl;
             return;
         }
@@ -97,11 +97,9 @@ public:
         isConnected = false;
     }
     void switchOn() {
-        cout << "Fan switched on" << endl;
         status = true;
     }
     void switchOff() {
-        cout << "Fan switched off" << endl;
         status = false;
     }
     bool getStatus() {
@@ -127,11 +125,9 @@ public:
         isConnected = false;
     }
     void switchOn() {
-        cout << "Light switched on" << endl;
         status = true;
     }
     void switchOff() {
-        cout << "Light switched off" << endl;
         status = false;
     }
     bool getStatus() {
@@ -157,11 +153,9 @@ public:
         isConnected = false;
     }
     void switchOn() {
-        cout << "Door Opened" << endl;
         status = true;
     }
     void switchOff() {
-        cout << "Door Closed" << endl;
         status = false;
     }
     bool getStatus() {
@@ -209,14 +203,20 @@ void SimulateInput(vector<shared_ptr<Sensor> > &sensors) {
   cout << "2.Decrease Value" << endl;
   cout << "3.Connect  Sensor" << endl;
   cout << "4.Disconnect  Sensor" << endl;
-  int option;
+  int option,amount;
   cin >> option;
   switch (option) {
   case 1:
-      (*sensors[sensorindex]).increase();
+      cout<<"Enter The Value : ";
+      cin>>amount;
+      cout<<endl;
+      (*sensors[sensorindex]).increase(amount);
       break;
   case 2:
-      (*sensors[sensorindex]).decrease();
+      cout<<"Enter The Value : ";
+      cin>>amount;
+      cout<<endl;
+      (*sensors[sensorindex]).decrease(amount);
       break;
   case 3:
       (*sensors[sensorindex]).onConnect();
