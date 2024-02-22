@@ -6,19 +6,19 @@ using namespace std;
 template <typename connectiontype>
 class Zoho{
 private:
-  vector<shared_ptr<connectiontype> > connections;
+  vector<connectiontype> connections;
 public:
-  vector<shared_ptr<connectiontype>> getConnections(){
+  vector<connectiontype> getConnections(){
       return connections;
   }
   void AddConnection(connectiontype &connection){
-    connections.push_back(make_shared<connectiontype>(connection));
+    connections.push_back(connection);
   }
   int Search(string std,string number){
     int connectionindex=-1;
     int connectionsize=connections.size();
     for(int i=0;i<connectionsize;i++){
-        if(std==(*connections[i]).getStd() && number==(*connections[i]).getNumber()){
+        if(std==(connections[i]).getStd() && number==(connections[i]).getNumber()){
             connectionindex=i;
             break;
         }
@@ -31,7 +31,7 @@ public:
         cout<<"Connection Not Found"<<endl;
         return;
     }
-    (*connections[connectionindex]).updateBill(amount);
+    (connections[connectionindex]).updateBill(amount);
   }
   void payBills(string std,string number){
     int connectionindex=Search(std,number);
@@ -39,7 +39,7 @@ public:
         cout<<"Connection Not Found"<<endl;
         return;
     }
-    (*connections[connectionindex]).payBill();
+    (connections[connectionindex]).payBill();
   }
   void PrintConnectionDetails(string std,string number){
     int connectionindex=Search(std,number);
@@ -47,7 +47,7 @@ public:
         cout<<"Connection Not Found"<<endl;
         return;
     }
-    cout<<(*connections[connectionindex]).getStd()<<" "<<(*connections[connectionindex]).getNumber()<<" "<<(*connections[connectionindex]).getDueAmount()<<endl;
+    cout<<(connections[connectionindex]).getStd()<<" "<<(connections[connectionindex]).getNumber()<<" "<<(connections[connectionindex]).getDueAmount()<<endl;
   }
 };
 
